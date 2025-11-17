@@ -1,0 +1,602 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>777 Slots Premium</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        body {
+            background: radial-gradient(circle, #1a0a0a, #000000);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: linear-gradient(145deg, #8B0000, #600000);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 215, 0, 0.3);
+            text-align: center;
+            border: 5px solid gold;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, gold, #ffd700, #daa520, #b8860b, gold);
+            z-index: -1;
+            border-radius: 25px;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 5px;
+            color: gold;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.9), 0 0 30px rgba(255, 215, 0, 0.7);
+            letter-spacing: 5px;
+            font-weight: 700;
+            line-height: 1;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            color: #ffcc00;
+            font-style: italic;
+        }
+        
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .slots-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+            perspective: 1000px;
+        }
+        
+        .slot {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(145deg, #8B0000, #600000);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: gold;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.7), 0 5px 15px rgba(0, 0, 0, 0.5);
+            border: 3px solid gold;
+            overflow: hidden;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        
+        .slot::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+            transform: rotate(45deg);
+            animation: shine 4s infinite;
+        }
+        
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+        
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+        
+        .spin-btn {
+            background: linear-gradient(to bottom, #ffcc00, #ff9900);
+            color: #8B0000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+        
+        .spin-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+        }
+        
+        .spin-btn:hover::before {
+            left: 100%;
+        }
+        
+        .spin-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        .spin-btn:disabled {
+            background: linear-gradient(to bottom, #666, #444);
+            color: #999;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .spin-btn:disabled::before {
+            display: none;
+        }
+        
+        .bet-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 10px 0;
+        }
+        
+        .bet-btn {
+            background: linear-gradient(to bottom, #8B0000, #600000);
+            color: gold;
+            border: 2px solid gold;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.2s ease;
+        }
+        
+        .bet-btn:hover {
+            transform: scale(1.1);
+            background: linear-gradient(to bottom, #9e0000, #700000);
+        }
+        
+        .bet-display {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: gold;
+            min-width: 100px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+        }
+        
+        .info-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px;
+            border-radius: 15px;
+            margin: 15px 0;
+            border: 2px solid gold;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .info-label {
+            font-size: 0.9rem;
+            color: #ffcc00;
+            margin-bottom: 3px;
+        }
+        
+        .info-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: gold;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+        }
+        
+        .win-animation {
+            animation: winPulse 0.5s infinite alternate;
+        }
+        
+        @keyframes winPulse {
+            from {
+                transform: scale(1);
+                box-shadow: 0 0 15px gold, 0 0 30px gold;
+            }
+            to {
+                transform: scale(1.08);
+                box-shadow: 0 0 25px gold, 0 0 50px gold;
+            }
+        }
+        
+        .message {
+            font-size: 1.2rem;
+            height: 35px;
+            margin: 10px 0;
+            color: gold;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .jackpot {
+            font-size: 1.5rem;
+            color: gold;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
+            margin: 10px 0;
+            animation: jackpotPulse 3s infinite;
+            padding: 8px 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            border: 2px solid gold;
+        }
+        
+        @keyframes jackpotPulse {
+            0% {
+                transform: scale(1);
+                text-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
+            }
+            50% {
+                transform: scale(1.05);
+                text-shadow: 0 0 25px rgba(255, 215, 0, 1), 0 0 40px rgba(255, 215, 0, 0.8);
+            }
+            100% {
+                transform: scale(1);
+                text-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
+            }
+        }
+        
+        .slot-machine {
+            position: relative;
+            padding: 20px;
+            background: linear-gradient(145deg, #600000, #450000);
+            border-radius: 15px;
+            border: 4px solid gold;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.7), 0 8px 20px rgba(0, 0, 0, 0.6);
+        }
+        
+        .slot-machine::before, .slot-machine::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 100%;
+            background: linear-gradient(to bottom, #daa520, #b8860b, #daa520);
+            top: 0;
+            box-shadow: 0 0 10px rgba(218, 165, 32, 0.7);
+        }
+        
+        .slot-machine::before {
+            left: -12px;
+            border-radius: 8px 0 0 8px;
+        }
+        
+        .slot-machine::after {
+            right: -12px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .lights {
+            position: absolute;
+            top: -8px;
+            left: 0;
+            width: 100%;
+            height: 15px;
+            background: linear-gradient(90deg, 
+                #ff0000, #ff4000, #ff8000, #ffbf00, 
+                #ffff00, #bfff00, #80ff00, #40ff00,
+                #00ff00, #00ff40, #00ff80, #00ffbf,
+                #00ffff, #00bfff, #0080ff, #0040ff,
+                #0000ff, #4000ff, #8000ff, #bf00ff,
+                #ff00ff, #ff00bf, #ff0080, #ff0040);
+            background-size: 1200px 100%;
+            animation: lightMove 3s linear infinite;
+            border-radius: 8px 8px 0 0;
+            opacity: 0.8;
+        }
+        
+        @keyframes lightMove {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 1200px 0;
+            }
+        }
+        
+        /* Ajustes para telas muito pequenas */
+        @media (max-width: 350px) {
+            .slot {
+                width: 70px;
+                height: 70px;
+                font-size: 2.5rem;
+            }
+            
+            h1 {
+                font-size: 3rem;
+            }
+            
+            .jackpot {
+                font-size: 1.3rem;
+            }
+            
+            .info-value {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>777</h1>
+        <p class="subtitle">O caça-níqueis mais premiado</p>
+        
+        <div class="jackpot">JACKPOT: R$ <span id="jackpot-value">5.000</span></div>
+        
+        <div class="game-area">
+            <div class="slot-machine">
+                <div class="lights"></div>
+                <div class="slots-container">
+                    <div class="slot" id="slot1">7</div>
+                    <div class="slot" id="slot2">7</div>
+                    <div class="slot" id="slot3">7</div>
+                </div>
+            </div>
+            
+            <div class="message" id="message">Boa sorte!</div>
+            
+            <div class="info-panel">
+                <div class="info-row">
+                    <div class="info-item">
+                        <div class="info-label">SALDO</div>
+                        <div class="info-value">R$ <span id="balance">100,00</span></div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">APOSTA</div>
+                        <div class="info-value">R$ <span id="bet-amount">0,50</span></div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-item">
+                        <div class="info-label">ÚLTIMO PRÊMIO</div>
+                        <div class="info-value">R$ <span id="last-win">0,00</span></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <div class="bet-controls">
+                    <button class="bet-btn" id="decrease-bet">-</button>
+                    <div class="bet-display" id="current-bet">R$ 0,50</div>
+                    <button class="bet-btn" id="increase-bet">+</button>
+                </div>
+                
+                <button class="spin-btn" id="spin-btn">GIRAR!</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos do DOM
+            const slot1 = document.getElementById('slot1');
+            const slot2 = document.getElementById('slot2');
+            const slot3 = document.getElementById('slot3');
+            const spinBtn = document.getElementById('spin-btn');
+            const balanceEl = document.getElementById('balance');
+            const lastWinEl = document.getElementById('last-win');
+            const messageEl = document.getElementById('message');
+            const jackpotValueEl = document.getElementById('jackpot-value');
+            const currentBetEl = document.getElementById('current-bet');
+            const betAmountEl = document.getElementById('bet-amount');
+            const decreaseBetBtn = document.getElementById('decrease-bet');
+            const increaseBetBtn = document.getElementById('increase-bet');
+            
+            // Variáveis do jogo
+            let balance = 100.00;
+            let currentBet = 0.50;
+            let lastWin = 0.00;
+            let jackpot = 5000.00;
+            let isSpinning = false;
+            
+            // Símbolos possíveis
+            const symbols = ['7', '🍒', '💎', '🔔', '⭐', '🍋'];
+            
+            // Atualizar a interface
+            function updateUI() {
+                balanceEl.textContent = balance.toFixed(2).replace('.', ',');
+                lastWinEl.textContent = lastWin.toFixed(2).replace('.', ',');
+                jackpotValueEl.textContent = jackpot.toFixed(2).replace('.', ',');
+                currentBetEl.textContent = `R$ ${currentBet.toFixed(2).replace('.', ',')}`;
+                betAmountEl.textContent = `${currentBet.toFixed(2).replace('.', ',')}`;
+                
+                // Verificar se o jogador pode girar
+                spinBtn.disabled = isSpinning || balance < currentBet;
+            }
+            
+            // Girar um slot individual
+            function spinSlot(slotElement, duration) {
+                return new Promise(resolve => {
+                    let startTime = null;
+                    const symbolsCount = symbols.length;
+                    
+                    function animate(currentTime) {
+                        if (!startTime) startTime = currentTime;
+                        const elapsed = currentTime - startTime;
+                        
+                        // Calcular quantos símbolos passaram
+                        const cycles = Math.floor(elapsed / 80);
+                        const symbolIndex = cycles % symbolsCount;
+                        
+                        // Atualizar o símbolo exibido
+                        slotElement.textContent = symbols[symbolIndex];
+                        
+                        if (elapsed < duration) {
+                            requestAnimationFrame(animate);
+                        } else {
+                            // Sorteio final
+                            const finalSymbol = symbols[Math.floor(Math.random() * symbolsCount)];
+                            slotElement.textContent = finalSymbol;
+                            resolve(finalSymbol);
+                        }
+                    }
+                    
+                    requestAnimationFrame(animate);
+                });
+            }
+            
+            // Girar todos os slots
+            async function spinSlots() {
+                if (isSpinning || balance < currentBet) return;
+                
+                isSpinning = true;
+                messageEl.textContent = "Girando...";
+                balance -= currentBet;
+                updateUI();
+                
+                // Girar os slots com durações ligeiramente diferentes
+                const results = await Promise.all([
+                    spinSlot(slot1, 1000 + Math.random() * 500),
+                    spinSlot(slot2, 1300 + Math.random() * 500),
+                    spinSlot(slot3, 1600 + Math.random() * 500)
+                ]);
+                
+                // Verificar resultado
+                checkResult(results);
+                isSpinning = false;
+                updateUI();
+            }
+            
+            // Verificar o resultado do giro
+            function checkResult(results) {
+                const [s1, s2, s3] = results;
+                let winAmount = 0;
+                
+                // Três 7s - Jackpot!
+                if (s1 === '7' && s2 === '7' && s3 === '7') {
+                    winAmount = jackpot;
+                    jackpot = 5000.00; // Reset do jackpot
+                    messageEl.textContent = "JACKPOT!!! VOCÊ GANHOU R$ 5.000,00!";
+                    animateWin([slot1, slot2, slot3]);
+                } 
+                // Três símbolos iguais
+                else if (s1 === s2 && s2 === s3) {
+                    winAmount = currentBet * 10;
+                    messageEl.textContent = `Três símbolos iguais! Ganhou R$ ${winAmount.toFixed(2).replace('.', ',')}!`;
+                    animateWin([slot1, slot2, slot3]);
+                } 
+                // Dois símbolos iguais
+                else if (s1 === s2 || s2 === s3 || s1 === s3) {
+                    winAmount = currentBet * 2;
+                    messageEl.textContent = `Dois símbolos iguais! Ganhou R$ ${winAmount.toFixed(2).replace('.', ',')}!`;
+                    
+                    if (s1 === s2) animateWin([slot1, slot2]);
+                    else if (s2 === s3) animateWin([slot2, slot3]);
+                    else animateWin([slot1, slot3]);
+                } 
+                // Sem vitória
+                else {
+                    messageEl.textContent = "Tente novamente!";
+                    jackpot += currentBet * 0.05; // Aumenta o jackpot
+                }
+                
+                // Atualizar saldo e último prêmio
+                if (winAmount > 0) {
+                    balance += winAmount;
+                    lastWin = winAmount;
+                } else {
+                    lastWin = 0;
+                }
+            }
+            
+            // Animar slots vencedores
+            function animateWin(winningSlots) {
+                winningSlots.forEach(slot => {
+                    slot.classList.add('win-animation');
+                    setTimeout(() => {
+                        slot.classList.remove('win-animation');
+                    }, 2000);
+                });
+            }
+            
+            // Ajustar aposta
+            function adjustBet(amount) {
+                const newBet = currentBet + amount;
+                if (newBet >= 0.50 && newBet <= 100.00) {
+                    currentBet = newBet;
+                    updateUI();
+                }
+            }
+            
+            // Event listeners
+            spinBtn.addEventListener('click', spinSlots);
+            decreaseBetBtn.addEventListener('click', () => adjustBet(-0.50));
+            increaseBetBtn.addEventListener('click', () => adjustBet(0.50));
+            
+            // Inicializar o jogo
+            updateUI();
+        });
+    </script>
+</body>
+</html>
