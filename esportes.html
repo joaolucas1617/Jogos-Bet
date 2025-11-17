@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jogos Bet • Apostas Esportivas</title>
+  <style>
+    :root{
+      --primary:#0b1f3a;
+      --secondary:#d4af37;
+      --bg:#0f2444;
+      --text:#f5f7fa;
+      --muted:#a7b3c9;
+      --card:#13294d;
+      --line:rgba(212,175,55,.25);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
+    header{background:var(--primary);padding:1rem;text-align:center;border-bottom:3px solid var(--secondary)}
+    header h1{color:var(--secondary);font-size:1.8rem}
+    nav{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;padding:1rem;background:#102040}
+    nav button{background:transparent;border:1px solid var(--secondary);color:var(--secondary);padding:.5rem 1rem;border-radius:20px;cursor:pointer;transition:.2s}
+    nav button.active,nav button:hover{background:var(--secondary);color:var(--primary);font-weight:600}
+    .layout{max-width:1200px;margin:1.5rem auto;display:grid;grid-template-columns:1fr 340px;gap:1.5rem;padding:0 1rem}
+    @media(max-width:980px){.layout{grid-template-columns:1fr}}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 6px 14px rgba(0,0,0,.35);overflow:hidden}
+    .card-header{display:flex;justify-content:space-between;align-items:center;background:rgba(212,175,55,.1);padding:.75rem 1rem;font-weight:700;color:var(--secondary);border-bottom:1px solid var(--line)}
+    .status{color:var(--muted);font-weight:500}
+    .teams{display:flex;justify-content:space-between;padding:1rem}
+    .team{font-weight:700}
+    .odds{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;padding:0 1rem 1rem}
+    .odd{
+      background:var(--secondary);
+      color:var(--primary);
+      border:1px solid var(--secondary);
+      border-radius:8px;
+      padding:.65rem;
+      text-align:center;
+      cursor:pointer;
+      font-weight:700;
+      transition:.15s;
+    }
+    .odd:hover{filter:brightness(1.1)}
+    .odd.selected{background:var(--primary);color:var(--secondary);font-weight:800}
+    aside{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1rem;box-shadow:0 6px 14px rgba(0,0,0,.35);height:max-content;position:sticky;top:20px}
+    aside h2{color:var(--secondary);margin-bottom:.75rem}
+    .bets{display:flex;flex-direction:column;gap:.5rem}
+    .bet{background:#0f2444;border:1px solid var(--line);border-radius:8px;padding:.6rem}
+    .bet .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem}
+    .bet .meta{font-size:.9rem;color:var(--muted)}
+    .remove{background:none;border:none;color:#ffb8bb;font-weight:700;cursor:pointer}
+    .stake{margin:.8rem 0}
+    .stake label{display:block;margin-bottom:.35rem;color:var(--muted)}
+    .stake input{width:100%;padding:.6rem;border-radius:8px;border:1px solid var(--line);background:#0b1f3a;color:var(--text)}
+    .summary{display:grid;gap:.4rem;margin:.8rem 0;font-size:.95rem}
+    .summary .row{display:flex;justify-content:space-between}
+    .actions{display:flex;gap:.6rem}
+    .actions button{flex:1;padding:.7rem;border-radius:10px;cursor:pointer;font-weight:800}
+    .place{background:var(--secondary);color:var(--primary);border:none}
+    .clear{background:transparent;border:1px solid var(--secondary);color:var(--secondary)}
+    .notice{margin-top:.7rem;color:var(--muted);font-size:.85rem}
+    footer{text-align:center;padding:1rem;border-top:2px solid var(--secondary);margin-top:2rem;font-size:.9rem;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header><h1>Jogos Bet • Apostas Esportivas</h1></header>
+
+  <nav id="tabs">
+    <button class="active" data-league="brasileirao">Brasileirão</button>
+    <button data-league="champions">Champions League</button>
+    <button data-league="copa">Copa do Brasil</button>
+  </nav>
+
+  <div class="layout">
+    <section class="grid" id="games">
+      <!-- Brasileirão (6 jogos) -->
+      <div class="card" data-league="brasileirao">
+        <div class="card-header"><span>Brasileirão Série A</span><span class="status">18/11/2025 • 20:30</span></div>
+        <div class="teams"><div class="team">Botafogo</div><div class="team">Sport Recife</div></div>
+        <div class="odds">
+          <button class="odd" data-market="1x2" data-selection="Botafogo" data-odd="1.80">Botafogo 1.80</button>
+          <button class="odd" data-market="1x2" data-selection="Empate" data-odd="3.20">Empate 3.20</button>
+          <button class="odd" data-market="1x2" data-selection="Sport Recife" data-odd="4.10">Sport Recife 4.10</button>
+        </div>
+      </div>
+      <div class="card" data-league="brasileirao">
+        <div class="card-header"><span>Brasileirão Série A</span><span class="status">19/11/2025 • 19:30</span></div>
+        <div class="teams"><div class="team">Palmeiras</div><div class="team">Vitória</div></div>
+        <div class="odds">
+          <button class="odd" data-market="1x2" data-selection="Palmeiras" data-odd="1.70">Palmeiras 1.70</button>
+          <button class="odd" data-market="1x2" data-selection="Empate" data-odd="3.40">Empate 3.40</button>
+          <button class="odd" data-market="1x2" data-selection="Vitória" data-odd="4.20">Vitória 4.20</button>
+        </div>
+      </div>
+      <div class="card" data-league="brasileirao">
+        <div class="card-header"><span>Brasileirão Série A</span><span class="status">19/11/2025 • 21:30</span></div>
+        <div class="teams"><div class="team">Grêmio</div><div class="team">Vasco</div></div>
+        <div class="odds">
+          <button class="odd" data-market="1x2" data-selection="Grêmio" data-odd="2.00">Grêmio 2.00</button>
+          <button class="odd" data-market="1x2" data-selection="Empate" data-odd="3.30">Empate 3.30</button>
+          <button class="odd" data-market="1x2" data-selection="Vasco" data-odd="3.60">Vasco 3.60</button>
+        </div>
+      </div>
+      <div class="card" data-league="brasileirao">
+        <div class="card-header"><span>Brasileirão Série A</span><span class="status">19/11/2025 • 21:30</span></div>
+        <div class="teams"><div class="team">Santos</div><div class="team">Mirassol</div></div>
+        <div class="odds">
+          <button class="odd" data-market="1x2" data-selection="Santos" data-odd="1.90">Santos 1.90</button>
+          <button class="odd" data-market="1x2" data-selection="Empate" data-odd="3.20">Empate 3.20</button>
+          <button class="odd" data-market="1x2" data-selection="Mirassol" data-odd="3.80">Mirassol 3.80</button>
+        </div>
+      </div>
+      <div class="card" data-league="brasileirao">
+        <div class="card-header"><span>Brasileirão Série A</span><span class="status">19/11/2025 • 21:30</span></div>
+        <div class="teams"><div class="team">Fluminense</div><div class="team">Flamengo</div></div>
+        <div class="odds">
+          <button class="odd" data-market="1x2" data-selection="Fluminense" data-odd="2.60">Fluminense 2.60</button>
+          <button class="odd" data-market="1x2" data-selection="Empate" data-odd="3.10">Empate 3.10</button>
+          <button class="odd" data-market="1x2" data-selection="Flamengo" data-odd="2.55">Flamengo 2.55</button>
+        </div>
+      </div>
+      <div class="card" data-league="brasileirao">
+        <div class="card-header"><span>Brasileirão Série A</span><span class="status">20/11/2025 • 16:00</span></div>
+        <div class="teams"><div class="team">Juventude</div><div class="team">Cruzeiro</div></div>
+        <div class="odds">
+          <button class="odd" data-market="1x2" data-selection="Juventude" data-odd="2.85">Juventude 2.85</button>
+          <button class="odd" data-market="1x2" data-selection="Empate" data-odd="3.05">Empate 3.05</button>
+          <button class="odd" data-market="1x2" data-selection="Cruzeiro" data-odd="2.35">Cruzeiro 2.35</button>
+        </div>
+      </div>
+
+      <!-- Champions League (6 jogos) -->
+      <div class="card" data-league="champions">
+        <div class="card-header"><span>UEFA Champions League</span><span class="status">25/11/2025 • 14:45</span></div>
+        <div class="teams"><div class="team">Ajax</div><div class="team">Benfica</div></div>
+        <div class="odds">
+          <button class="odd" data-market="1x2" data-selection="Ajax" data-odd="2.50">Ajax 2.50</button>
+          <button class="odd" data-market="1x2" data-selection="Empate" data-odd="3.20">Empate 3.20</button>
+          <button class="odd" data-market="1x2" data-selection="Benfica" data-odd="2.70">Benfica 2.70</button>
+        </div>
+      </div>
+      <div class="card" data-league="champions">
+        <div class="card-header"><span>UEFA Champions League</span><span class="status">25/11/2025 • 14:45</span></div>
+        <div class="teams"><div class="team">Galatasaray</div><div class="team">Union Saint-Gilloise</div></div>
+        <div class="odds">
+          <button class="odd" data-market="1x2" data-selection="Galatasaray" data-odd="2.20">Galatasaray 2.20</button>
+          <button class="odd" data-market="1x2" data-selection="Empate" data-odd="3.25">Empate 3.25</button>
+          <button class="odd" data-market="1x2" data-selection="USG" data-odd="3.10">USG 3.10</button>
+        </div>
+      </div>
+      <div class="card" data-league="champions">
+        <div class="card-header"><span>UEFA Champions League</span><span class="status">25/11/2025 • 16:45</span></div>
+        <div class="teams"><div class="team">Chelsea</div><div class="team">Barcelona</div></div>
+        <div class="odds">
+          <button class="odd" data-market="1x2" data-selection="Chelsea" data-odd="2.80">Chelsea 2.80</button>
+          <button class="odd" data-market="1x2" data-selection="Empate" data-odd="3.15">Empate 3.15</button>
+          <button class="odd" data-market="1x2" data-selection="Barcelona" data-odd="2.55">Barcelona 2.55</button>
+        </div>
+      </div>
+      <div class="card" data-league="champions">
+        <div class="card-header"><span>UEFA Champions League</span><span class="status">25/11/2025 • 17:00</span></div>
+        <div class="teams"><div class="team">Marselha</div><div class="team">Newcastle</div></div>
+        <div class="odds">
+          <button class="odd" data-market="1x2" data-selection="Marselha" data-odd="2.60">Marselha 2.60</button>
+          <button class="odd" data-market="1x2" data-selection="Empate" data-odd="3.10">Empate 3.10</button>
+          <button class="odd" data-market="1x2" data-selection="Newcastle" data-odd="2.55">Newcastle 2.55</button>
+        </div>
+      </div>
+      <div class="card" data-league="champions">
+        <div class="card-header"><span>UEFA Champions League</span><span class="status">25/11/2025 • 17:00</span></div>
+        <div class="teams"><div class="team">Napoli</div><div class="team">Qarabag</div></div>
+        <div class="odds">
+          <button class="odd" data-market="1x2" data-selection="Napoli" data-odd="1.75">Napoli 1.75</button>
+          <button class="odd" data-market="1x2" data-selection="Empate" data-odd="3.60">Empate 3.60</button>
+          <button class="odd" data-market="1x2" data-selection="Qarabag" data-odd="4.60">Qarabag 4.60</button>
+        </div>
+      </div>
+      <div class="card" data-league="champions">
+        <div class="card-header"><span>UEFA Champions League</span><span class="status">25/11/2025 • 17:00</span></div>
+        <div class="teams"><div class="team">Slavia Praga</div><div class="team">Athletic Bilbao</div></div>
+        <div class="odds">
+          <button class="odd" data-market="1x2" data-selection="Slavia" data-odd="2.85">Slavia 2.85</button>
+          <button class="odd" data-market="1x2" data-selection="Empate" data-odd="3.20">Empate 3.20</button>
+          <button class="odd" data-market="1x2" data-selection="Bilbao" data-odd="2.40">Bilbao 2.40</button>
+        </div>
+      </div>
+
+      <!-- Copa do Brasil (6 jogos de fase decisiva) -->
+      <div class="card" data-league="copa">
+        <div class="card-header"><span>Copa do Brasil</span><span class="status">01/12/2025 • 20:00</span></div>
+        <div class="teams"><div class="team">Fluminense</div><div class="team">Corinthians</div></div>
+        <div class="odds">
+          <button class="odd" data-market="1x2" data-selection="Fluminense" data-odd="2.05">Fluminense 2.05</button>
+          <button class="odd" data-market="1x2" data-selection="Empate" data-odd="3.10">Empate 3.10</button>
+          <button class="odd" data-market="1x2" data-selection="Corinthians" data-odd="3.50">Corinthians 3.50</button>
+        </div>
+      </div>
+      <div class="card" data-league="copa">
+        <div class="card-header"><span>Copa do Brasil</span><span class="status">02/12/2025 • 21:30</span></div>
+        <div class="teams"><div class="team">Cruzeiro</div><div class="team">Vasco</div></div>
+        <div class="odds">
+          <button class="odd" data-market="1x2" data-selection="Cruzeiro" data-odd="2.30">Cruzeiro 2.30</button>
+          <button class="odd" data-market="1x2" data-selection="Empate" data-odd="3.00">Empate 3.00</button>
+          <button class="odd" data-market="1x2" data-selection="Vasco" data-odd="2.85">Vasco 2.85</button>
+        </div>
+      </div>
+      <div class="card" data-league="copa">
+        <div class="card-header"><span>Copa do Brasil</span><span class="status">05/12/2025 • 20:00</span></div>
+        <div class="teams"><div class="team">Fluminense</div><div class="team">Cruzeiro</div></div>
+        <div class="odds">
+          <button class="odd" data-market="1x2" data-selection="Fluminense" data-odd="2.15">Fluminense 2.15</button>
+          <button class="odd" data-market="1x2" data-selection="Empate" data-odd="3.05">Empate 3.05</button>
+          <button class="odd" data-market="1x2" data-selection="Cruzeiro" data-odd="3.30">Cruzeiro 3.30</button>
+        </div>
+      </div>
+      <div class="card" data-league="copa">
+        <div class="card-header"><span>Copa do Brasil</span><span class="status">06/12/2025 • 21:30</span></div>
+        <div class="teams"><div class="team">Corinthians</div><div class="team">Vasco</div></div>
+        <div class="odds">
+          <button class="odd" data-market="1x2" data-selection="Corinthians" data-odd="2.25">Corinthians 2.25</button>
+          <button class="odd" data-market="1x2" data-selection="Empate" data-odd="3.10">Empate 3.10</button>
+          <button class="odd" data-market="1x2" data-selection="Vasco" data-odd="3.10">Vasco 3.10</button>
+        </div>
+      </div>
+      <div class="card" data-league="copa">
+        <div class="card-header"><span>Copa do Brasil</span><span class="status">10/12/2025 • 20:00</span></div>
+        <div class="teams"><div class="team">Fluminense</div><div class="team">Vasco</div></div>
+        <div class="odds">
+          <button class="odd" data-market="1x2" data-selection="Fluminense" data-odd="2.00">Fluminense 2.00</button>
+          <button class="odd" data-market="1x2" data-selection="Empate" data-odd="3.20">Empate 3.20</button>
+          <button class="odd" data-market="1x2" data-selection="Vasco" data-odd="3.60">Vasco 3.60</button>
+        </div>
+      </div>
+      <div class="card" data-league="copa">
+        <div class="card-header"><span>Copa do Brasil</span><span class="status">11/12/2025 • 21:30</span></div>
+        <div class="teams"><div class="team">Corinthians</div><div class="team">Cruzeiro</div></div>
+        <div class="odds">
+          <button class="odd" data-market="1x2" data-selection="Corinthians" data-odd="2.40">Corinthians 2.40</button>
+          <button class="odd" data-market="1x2" data-selection="Empate" data-odd="3.00">Empate 3.00</button>
+          <button class="odd" data-market="1x2" data-selection="Cruzeiro" data-odd="2.80">Cruzeiro 2.80</button>
+        </div>
+      </div>
+    </section>
+
+    <aside aria-label="Bilhete de apostas">
+      <h2>Seu bilhete</h2>
+      <div class="bets" id="bets"></div>
+
+      <div class="stake">
+        <label for="stake">Valor (R$)</label>
+        <input id="stake" type="number" min="0" step="1" placeholder="Ex: 50" />
+      </div>
+
+      <div class="summary">
+        <div class="row"><span>Seleções</span><strong id="count">0</strong></div>
+        <div class="row"><span>Odds combinadas</span><strong id="combined">—</strong></div>
+        <div class="row"><span>Retorno potencial</span><strong id="payout">—</strong></div>
+      </div>
+
+      <div class="actions">
+        <button class="clear" id="clear">Limpar</button>
+        <button class="place" id="place">Finalizar aposta</button>
+      </div>
+
+      <p class="notice">Conteúdo de cotações é demonstrativo. Integre com sua API para dados oficiais e atualização em tempo real.</p>
+    </aside>
+  </div>
+
+  <footer>© 2025 Jogos Bet • Todos os direitos reservados</footer>
+
+  <script>
+    // Abas (filtro por liga)
+    const tabs = document.querySelectorAll('#tabs button');
+    const cards = document.querySelectorAll('#games .card');
+
+    function showLeague(league){
+      cards.forEach(card=>{
+        card.style.display = (card.dataset.league === league) ? 'block' : 'none';
+      });
+    }
+    showLeague('brasileirao');
+
+    tabs.forEach(tab=>{
+      tab.addEventListener('click', ()=>{
+        tabs.forEach(t=>t.classList.remove('active'));
+        tab.classList.add('active');
+        showLeague(tab.dataset.league);
+      });
+    });
+
+    // Bilhete funcional (seleções e cálculo)
+    const slip = new Map(); // uid -> {event, market, selection, odd}
+    const betsEl = document.getElementById('bets');
+    const countEl = document.getElementById('count');
+    const combinedEl = document.getElementById('combined');
+    const payoutEl = document.getElementById('payout');
+    const stakeInput = document.getElementById('stake');
+    const clearBtn = document.getElementById('clear');
+    const placeBtn = document.getElementById('place');
+
+    // Delegação de clique nas odds
+    document.addEventListener('click', (e)=>{
+      if(!e.target.classList.contains('odd')) return;
+      const btn = e.target;
+      const card = btn.closest('.card');
+      const teams = [...card.querySelectorAll('.teams .team')].map(t=>t.textContent.trim());
+      const eventName = `${teams[0]} x ${teams[1]}`;
+      const market = btn.dataset.market || '1x2';
+      const selection = btn.dataset.selection;
+      const odd = parseFloat(btn.dataset.odd);
+      const uid = `${eventName}::${market}::${selection}`;
+
+      // Toggle e exclusividade por evento/mercado
+      if (slip.has(uid)){
+        slip.delete(uid);
+        btn.classList.remove('selected');
+      } else {
+        // remove seleção anterior do mesmo evento/mercado
+        [...slip.keys()].forEach(k=>{
+          const [ev, mk] = k.split('::');
+          if (ev===eventName && mk===market){
+            slip.delete(k);
+            card.querySelectorAll('.odd').forEach(o=>{
+              if (o.dataset.market===mk) o.classList.remove('selected');
+            });
+          }
+        });
+        slip.set(uid, {event:eventName, market, selection, odd});
+        btn.classList.add('selected');
+      }
+      renderSlip();
+    });
+
+    function renderSlip(){
+      betsEl.innerHTML = '';
+      if (slip.size===0){
+        countEl.textContent = '0';
+        combinedEl.textContent = '—';
+        payoutEl.textContent = '—';
+        return;
+      }
+      const frag = document.createDocumentFragment();
+      slip.forEach((item, uid)=>{
+        const el = document.createElement('div');
+        el.className = 'bet';
+        el.innerHTML = `
+          <div class="top">
+            <strong>${item.event}</strong>
+            <button class="remove" data-uid="${uid}" aria-label="Remover">×</button>
+          </div>
+          <div class="meta">${item.market} • ${item.selection}</div>
+          <div class="meta">Odd: <strong>${item.odd.toFixed(2)}</strong></div>
+        `;
+        frag.appendChild(el);
+      });
+      betsEl.appendChild(frag);
+
+      countEl.textContent = String(slip.size);
+      const combined = [...slip.values()].reduce((acc, cur)=> acc * cur.odd, 1);
+      combinedEl.textContent = combined.toFixed(2);
+
+      const stake = parseFloat(stakeInput.value || '0');
+      payoutEl.textContent = stake>0 ? `R$ ${(stake * combined).toFixed(2)}` : '—';
+
+      // remoção de seleção
+      betsEl.querySelectorAll('.remove').forEach(rm=>{
+        rm.addEventListener('click', ()=>{
+          const uid = rm.dataset.uid;
+          const item = slip.get(uid);
+          slip.delete(uid);
+          // desmarcar nos cards
+          document.querySelectorAll('.card').forEach(c=>{
+            const t = [...c.querySelectorAll('.teams .team')].map(x=>x.textContent.trim());
+            const ev = `${t[0]} x ${t[1]}`;
+            if (ev === item.event){
+              c.querySelectorAll('.odd').forEach(o=>{
+                if (o.dataset.market === item.market && o.dataset.selection === item.selection){
+                  o.classList.remove('selected');
+                }
+              });
+            }
+          });
+          renderSlip();
+        });
+      });
+    }
+
+    stakeInput.addEventListener('input', renderSlip);
+
+    clearBtn.addEventListener('click', ()=>{
+      slip.clear();
+      document.querySelectorAll('.odd.selected').forEach(o=>o.classList.remove('selected'));
+      renderSlip();
+    });
+
+    placeBtn.addEventListener('click', ()=>{
+      if (slip.size===0){
+        alert('Adicione seleções ao bilhete.');
+        return;
+      }
+      const stake = parseFloat(stakeInput.value || '0');
+      if (!stake || stake<=0){
+        alert('Informe um valor válido para apostar.');
+        return;
+      }
+      const payload = { stake, selections:[...slip.values()] };
+      alert('Bilhete (demo) pronto!\n\n' + JSON.stringify(payload, null, 2));
+    });
+  </script>
+</body>
+</html>
+
+
