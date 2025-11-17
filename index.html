@@ -1,0 +1,1839 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogos Bet - A sua jogada de mestre!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0a0e17; /* Preto-azulado */
+            --secondary: #1a2434; /* Azul-marinho escuro */
+            --accent: #ffd700; /* Dourado */
+            --accent-hover: #ffed4e; /* Dourado mais claro */
+            --light: #f5f5f5;
+            --text: #ffffff;
+            --text-secondary: #b0b7c3;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--secondary);
+            padding: 0.5rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            font-size: 1.8rem;
+            color: var(--accent);
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text);
+        }
+        
+        .logo-slogan {
+            font-size: 0.65rem;
+            color: var(--accent);
+            margin-top: -3px;
+        }
+        
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .wallet-container {
+            position: relative;
+        }
+        
+        .wallet-btn {
+            background: linear-gradient(135deg, var(--accent), #e6c200);
+            color: var(--primary);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 120px;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+        
+        .wallet-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+        }
+        
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+            transition: all 0.3s;
+        }
+        
+        .menu-toggle:hover {
+            color: var(--accent-hover);
+        }
+        
+        /* Sidebar Menu */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100vh;
+            background-color: var(--secondary);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+            transition: left 0.3s ease;
+            z-index: 1000;
+            padding: 2rem 1.5rem;
+        }
+        
+        .sidebar.active {
+            left: 0;
+        }
+        
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .sidebar-title {
+            color: var(--accent);
+            font-size: 1.3rem;
+        }
+        
+        .sidebar-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .sidebar-user {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(255,215,0,0.1);
+            border-radius: 8px;
+        }
+        
+        .sidebar-user-name {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .sidebar-user-balance {
+            color: var(--text);
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.8rem 1rem;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-menu a:hover {
+            background-color: rgba(255,215,0,0.1);
+            color: var(--accent);
+        }
+        
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+        
+        .sidebar-overlay.active {
+            display: block;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent);
+            color: var(--primary);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+        }
+        
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            font-size: 0.85rem;
+            padding: 6px 12px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+        }
+        
+        /* Resto do CSS permanece igual... */
+        
+        /* Auth Section */
+        .auth-section {
+            padding: 2rem 0;
+            background: linear-gradient(135deg, var(--primary), #1a1f2e);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        
+        .auth-hero {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 0 1rem;
+        }
+        
+        .auth-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 1rem;
+        }
+        
+        .auth-logo-icon {
+            font-size: 3rem;
+            color: var(--accent);
+        }
+        
+        .auth-logo-text {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--text);
+        }
+        
+        .auth-slogan {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .auth-tagline {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .auth-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: var(--secondary);
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+        
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+        
+        .auth-tab.active {
+            color: var(--accent);
+            border-bottom: 3px solid var(--accent);
+        }
+        
+        .auth-form {
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            font-size: 1rem;
+            color: var(--text);
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            background-color: rgba(255,255,255,0.15);
+        }
+        
+        .btn-block {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .message {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .message.success {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: #28a745;
+            border: 1px solid rgba(40, 167, 69, 0.3);
+        }
+        
+        .message.error {
+            background-color: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+            border: 1px solid rgba(220, 53, 69, 0.3);
+        }
+        
+        /* Main Content (Após Login) */
+        .main-content {
+            display: none;
+        }
+        
+        /* Banner Section */
+        .banner-section {
+            padding: 2rem 0 1.5rem 0;
+            overflow: hidden;
+        }
+        
+        .banner-container {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding: 10px 0;
+            scrollbar-width: none;
+        }
+        
+        .banner-container::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .banner-card {
+            flex: 0 0 auto;
+            width: 300px;
+            background: linear-gradient(135deg, var(--secondary), #2a3a5a);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .banner-card h3 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .banner-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .banner-card .btn {
+            align-self: flex-start;
+        }
+        
+        /* Games Section */
+        .games-section {
+            padding: 2rem 0;
+        }
+        
+        .section-title {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-title h2 {
+            font-size: 1.8rem;
+            color: var(--text);
+        }
+        
+        .categories {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+        
+        .category-btn {
+            padding: 8px 16px;
+            background-color: var(--secondary);
+            border: none;
+            border-radius: 20px;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        
+        .category-btn.active, .category-btn:hover {
+            background-color: var(--accent);
+            color: var(--primary);
+        }
+        
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .game-card {
+            background-color: var(--secondary);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .game-image {
+            height: 160px;
+            background: linear-gradient(135deg, #2a3a5a, #1a2434);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 3.5rem;
+            position: relative;
+        }
+        
+        .game-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--accent);
+            color: var(--primary);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        .game-content {
+            padding: 1.2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .game-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+        
+        .game-description {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+        
+        .game-play-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--accent);
+            color: var(--primary);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        .game-play-btn:hover {
+            background-color: var(--accent-hover);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: var(--secondary);
+            border-radius: 10px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .modal-close:hover {
+            color: var(--accent);
+        }
+        
+        .modal-body {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        /* PIX Deposit Section */
+        .pix-deposit {
+            background: linear-gradient(135deg, #1a3a2a, #2a5a3a);
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .pix-deposit h3 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .pix-key {
+            background-color: rgba(0,0,0,0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .pix-key-code {
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: var(--accent);
+            word-break: break-all;
+            margin-bottom: 0.5rem;
+        }
+        
+        .copy-btn {
+            background-color: var(--accent);
+            color: var(--primary);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background-color: var(--accent-hover);
+        }
+        
+        .deposit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .deposit-amount {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .amount-input {
+            flex: 1;
+            padding: 0.75rem;
+            background-color: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            color: var(--text);
+            font-size: 1.1rem;
+            text-align: center;
+        }
+        
+        .quick-amounts {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .quick-amount {
+            padding: 0.5rem 1rem;
+            background-color: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .quick-amount:hover {
+            background-color: var(--accent);
+            color: var(--primary);
+        }
+        
+        .deposit-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--secondary);
+            padding: 3rem 0 1rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 0.7rem;
+        }
+        
+        .footer-column ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--accent);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: row;
+                gap: 1rem;
+            }
+            
+            .section-title {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .auth-container {
+                padding: 1.5rem;
+            }
+            
+            .deposit-amount {
+                flex-direction: column;
+            }
+            
+            .deposit-actions {
+                flex-direction: column;
+            }
+            
+            .user-area {
+                flex-direction: row;
+                gap: 10px;
+                align-items: center;
+            }
+            
+            .auth-logo {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .auth-logo-text {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .banner-card {
+                width: 260px;
+            }
+            
+            .wallet-btn {
+                min-width: 100px;
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .auth-logo-text {
+                font-size: 1.8rem;
+            }
+            
+            .auth-slogan {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Header -->
+    <header id="mainHeader" style="display: none;">
+        <div class="container">
+            <div class="header-content">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-dice"></i>
+                    </div>
+                    <div>
+                        <div class="logo-text">Jogos Bet</div>
+                        <div class="logo-slogan">A sua jogada de mestre!</div>
+                    </div>
+                </div>
+                <div class="user-area">
+                    <div class="wallet-container">
+                        <button class="wallet-btn" id="walletBtn">
+                            <i class="fas fa-wallet"></i>
+                            R$ <span id="headerBalance">0,00</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar Menu -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3 class="sidebar-title">Menu</h3>
+            <button class="sidebar-close" id="sidebarClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="sidebar-user">
+            <div class="sidebar-user-name" id="sidebarUserName">Usuário</div>
+            <div class="sidebar-user-balance">R$ <span id="sidebarBalance">0,00</span></div>
+        </div>
+        
+        <ul class="sidebar-menu">
+            <li><a href="#" id="sidebarProfile"><i class="fas fa-user"></i> Meu Perfil</a></li>
+            <li><a href="#" id="sidebarHistory"><i class="fas fa-history"></i> Histórico</a></li>
+            <li><a href="#" id="sidebarPromotions"><i class="fas fa-gift"></i> Promoções</a></li>
+            <li><a href="#" id="sidebarSettings"><i class="fas fa-cog"></i> Configurações</a></li>
+            <li><a href="#" id="sidebarLogoutBtn"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+        </ul>
+    </div>
+    
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Auth Section -->
+    <section class="auth-section" id="authSection">
+        <div class="container">
+            <div class="auth-hero">
+                <div class="auth-logo">
+                    <i class="fas fa-dice auth-logo-icon"></i>
+                    <div class="auth-logo-text">Jogos Bet</div>
+                </div>
+                <div class="auth-slogan">A sua jogada de mestre!</div>
+                <p class="auth-tagline">A plataforma mais completa de jogos e apostas online. Segurança, diversão e grandes prêmios esperam por você!</p>
+            </div>
+            
+            <div class="auth-container">
+                <div class="auth-tabs">
+                    <div class="auth-tab active" id="loginTab">Entrar</div>
+                    <div class="auth-tab" id="registerTab">Registrar</div>
+                </div>
+                
+                <form class="auth-form active" id="loginForm">
+                    <div id="loginMessage"></div>
+                    <div class="form-group">
+                        <label for="loginUsername">Nome de Usuário</label>
+                        <input type="text" class="form-control" id="loginUsername" placeholder="Seu nome de usuário" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Senha</label>
+                        <input type="password" class="form-control" id="loginPassword" placeholder="Sua senha" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+                </form>
+                
+                <form class="auth-form" id="registerForm">
+                    <div id="registerMessage"></div>
+                    <div class="form-group">
+                        <label for="registerUsername">Nome de Usuário</label>
+                        <input type="text" class="form-control" id="registerUsername" placeholder="Escolha um nome de usuário" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Senha</label>
+                        <input type="password" class="form-control" id="registerPassword" placeholder="Crie uma senha" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerConfirmPassword">Confirmar Senha</label>
+                        <input type="password" class="form-control" id="registerConfirmPassword" placeholder="Confirme sua senha" required>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" required> 
+                            Aceito os <a href="#" id="termsLink" style="color: var(--accent);">Termos e Condições</a>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content (Após Login) -->
+    <div class="main-content" id="mainContent">
+        <!-- Banner Section -->
+        <section class="banner-section">
+            <div class="container">
+                <div class="banner-container">
+                    <div class="banner-card">
+                        <h3>Bônus de Boas-Vindas</h3>
+                        <p>Ganhe 100% de bônus no seu primeiro depósito até R$ 500!</p>
+                        <button class="btn btn-primary" id="bonusBtn">Aproveitar Oferta</button>
+                    </div>
+                    <div class="banner-card">
+                        <h3>Rodadas Grátis</h3>
+                        <p>10 rodadas grátis no caça-níqueis Diamond Fortune!</p>
+                        <button class="btn btn-primary" id="freeSpinsBtn">Resgatar Agora</button>
+                    </div>
+                    <div class="banner-card">
+                        <h3>Cashback Semanal</h3>
+                        <p>Receba até 15% de cashback todas as segundas-feiras!</p>
+                        <button class="btn btn-primary" id="cashbackBtn">Saiba Mais</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Games Section -->
+        <section class="games-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Nossos Jogos</h2>
+                    <div class="categories">
+                        <button class="category-btn active">Todos</button>
+                        <button class="category-btn">Crash</button>
+                        <button class="category-btn">Mine</button>
+                        <button class="category-btn">Slot</button>
+                        <button class="category-btn">Esportes</button>
+                    </div>
+                </div>
+                
+                <div class="games-grid">
+                    <!-- Jogo 1 - Crash -->
+                    <div class="game-card">
+                        <div class="game-image">
+                            <i class="fas fa-chart-line"></i>
+                            <div class="game-badge">Popular</div>
+                        </div>
+                        <div class="game-content">
+                            <h3 class="game-title">Crash Game</h3>
+                            <p class="game-description">Aposte no momento certo antes do gráfico explodir!</p>
+                            <a href="crashxx.html" class="game-play-btn">
+                                <i class="fas fa-play"></i> Jogar Agora
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Jogo 2 - Mine -->
+                    <div class="game-card">
+                        <div class="game-image">
+                            <i class="fas fa-gem"></i>
+                            <div class="game-badge">Novo</div>
+                        </div>
+                        <div class="game-content">
+                            <h3 class="game-title">Mine Game</h3>
+                            <p class="game-description">Encontre gemas preciosas e multiplique seus ganhos.</p>
+                            <a href="mine.html" class="game-play-btn">
+                                <i class="fas fa-play"></i> Jogar Agora
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Jogo 3 - Slot -->
+                    <div class="game-card">
+                        <div class="game-image">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="game-content">
+                            <h3 class="game-title">Slot Machine</h3>
+                            <p class="game-description">5 rolos, 20 linhas de pagamento e jackpots progressivos.</p>
+                            <a href="slot.html" class="game-play-btn">
+                                <i class="fas fa-play"></i> Jogar Agora
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Jogo 4 - Esportes -->
+                    <div class="game-card">
+                        <div class="game-image">
+                            <i class="fas fa-football-ball"></i>
+                        </div>
+                        <div class="game-content">
+                            <h3 class="game-title">Aposta Esportiva</h3>
+                            <p class="game-description">Aposte nos maiores eventos esportivos com odds competitivas.</p>
+                            <a href="esportes.html" class="game-play-btn">
+                                <i class="fas fa-play"></i> Jogar Agora
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-column">
+                        <h3>Jogos Bet</h3>
+                        <p style="color: var(--text-secondary);">A sua jogada de mestre! A casa de apostas mais confiável do mercado.</p>
+                    </div>
+                    <div class="footer-column">
+                        <h3>Links Rápidos</h3>
+                        <ul>
+                            <li><a href="#" id="homeLink">Início</a></li>
+                            <li><a href="#" id="gamesLink">Jogos</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h3>Suporte</h3>
+                        <ul>
+                            <li><a href="#" id="faqLink">FAQ</a></li>
+                            <li><a href="#" id="contactLink">Contato</a></li>
+                            <li><a href="#" id="depositsLink">Depósitos e Saques</a></li>
+                            <li><a href="#" id="termsLinkFooter">Termos de Uso</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h3>Segurança</h3>
+                        <ul>
+                            <li><a href="#" id="responsibleLink">Jogo Responsável</a></li>
+                            <li><a href="#" id="privacyLink">Política de Privacidade</a></li>
+                            <li><a href="#" id="certificationsLink">Certificações</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2023 Jogos Bet. Todos os direitos reservados. Apostas envolvem risco. Jogue com responsabilidade.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modal para Depósito -->
+    <div class="modal" id="depositModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-qrcode"></i> Depósito via PIX</h3>
+                <button class="modal-close" id="depositModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="pix-key">
+                    <div style="color: var(--text-secondary); margin-bottom: 0.5rem;">Chave PIX (Copie e cole no seu app bancário):</div>
+                    <div class="pix-key-code">8d4f3e33-31bd-4785-a0fa-dc6722871f53</div>
+                    <button class="copy-btn" id="copyPixBtn">
+                        <i class="fas fa-copy"></i> Copiar Chave
+                    </button>
+                </div>
+                
+                <div class="deposit-form">
+                    <div class="form-group">
+                        <label for="depositAmount">Valor do Depósito (R$)</label>
+                        <div class="deposit-amount">
+                            <input type="number" class="amount-input" id="depositAmount" min="10" max="10000" value="50" step="10">
+                        </div>
+                    </div>
+                    
+                    <div class="quick-amounts">
+                        <div class="quick-amount" data-amount="10">R$ 10</div>
+                        <div class="quick-amount" data-amount="50">R$ 50</div>
+                        <div class="quick-amount" data-amount="100">R$ 100</div>
+                        <div class="quick-amount" data-amount="200">R$ 200</div>
+                        <div class="quick-amount" data-amount="500">R$ 500</div>
+                    </div>
+                    
+                    <div class="deposit-actions">
+                        <button class="btn btn-success btn-block" id="confirmDepositBtn">
+                            <i class="fas fa-check"></i> Já Realizei o Pagamento
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para páginas -->
+    <div class="modal" id="pageModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Título</h3>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                Conteúdo da página...
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para mensagens do sistema -->
+    <div class="modal" id="messageModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="messageTitle">Mensagem</h3>
+                <button class="modal-close" id="messageModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="messageText"></p>
+            </div>
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <button class="btn btn-primary" id="messageOkBtn">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sistema de Autenticação e Saldo
+        const AUTH_KEY = 'jogosbet_users';
+        const BALANCE_KEY = 'jogosbet_balance';
+        
+        // Elementos da interface
+        const authSection = document.getElementById('authSection');
+        const mainContent = document.getElementById('mainContent');
+        const mainHeader = document.getElementById('mainHeader');
+        
+        const loginTab = document.getElementById('loginTab');
+        const registerTab = document.getElementById('registerTab');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        
+        const loginMessage = document.getElementById('loginMessage');
+        const registerMessage = document.getElementById('registerMessage');
+        const headerBalance = document.getElementById('headerBalance');
+        
+        const walletBtn = document.getElementById('walletBtn');
+        
+        // Elementos do sidebar
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarClose = document.getElementById('sidebarClose');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const sidebarUserName = document.getElementById('sidebarUserName');
+        const sidebarBalance = document.getElementById('sidebarBalance');
+        const sidebarLogoutBtn = document.getElementById('sidebarLogoutBtn');
+        
+        // Elementos do menu sidebar
+        const sidebarProfile = document.getElementById('sidebarProfile');
+        const sidebarHistory = document.getElementById('sidebarHistory');
+        const sidebarPromotions = document.getElementById('sidebarPromotions');
+        const sidebarSettings = document.getElementById('sidebarSettings');
+        
+        // Modais
+        const depositModal = document.getElementById('depositModal');
+        const depositModalClose = document.getElementById('depositModalClose');
+        const pageModal = document.getElementById('pageModal');
+        const modalClose = document.getElementById('modalClose');
+        const messageModal = document.getElementById('messageModal');
+        const messageModalClose = document.getElementById('messageModalClose');
+        const messageTitle = document.getElementById('messageTitle');
+        const messageText = document.getElementById('messageText');
+        const messageOkBtn = document.getElementById('messageOkBtn');
+        
+        // Elementos do PIX
+        const copyPixBtn = document.getElementById('copyPixBtn');
+        const depositAmount = document.getElementById('depositAmount');
+        const confirmDepositBtn = document.getElementById('confirmDepositBtn');
+        const quickAmounts = document.querySelectorAll('.quick-amount');
+        
+        // Botões de banner
+        const bonusBtn = document.getElementById('bonusBtn');
+        const freeSpinsBtn = document.getElementById('freeSpinsBtn');
+        const cashbackBtn = document.getElementById('cashbackBtn');
+        
+        // Variáveis globais
+        let currentUser = null;
+        
+        // Conteúdo das páginas
+        const pageContent = {
+            terms: {
+                title: "Termos e Condições",
+                content: `
+                    <h4>1. Aceitação dos Termos</h4>
+                    <p>Ao acessar e usar a plataforma Jogos Bet, você concorda com estes termos e condições.</p>
+                    
+                    <h4>2. Elegibilidade</h4>
+                    <p>Você deve ter pelo menos 18 anos para usar nossos serviços.</p>
+                    
+                    <h4>3. Conta do Usuário</h4>
+                    <p>Você é responsável por manter a confidencialidade de sua conta e senha.</p>
+                    
+                    <h4>4. Jogo Responsável</h4>
+                    <p>Encorajamos o jogo responsável e oferecemos ferramentas para ajudar no controle.</p>
+                    
+                    <h4>5. Limitações de Responsabilidade</h4>
+                    <p>Não nos responsabilizamos por perdas resultantes do uso de nossa plataforma.</p>
+                `
+            },
+            privacy: {
+                title: "Política de Privacidade",
+                content: `
+                    <h4>1. Coleta de Informações</h4>
+                    <p>Coletamos informações necessárias para fornecer nossos serviços.</p>
+                    
+                    <h4>2. Uso das Informações</h4>
+                    <p>Suas informações são usadas para processar transações e melhorar nossos serviços.</p>
+                    
+                    <h4>3. Proteção de Dados</h4>
+                    <p>Implementamos medidas de segurança para proteger suas informações.</p>
+                    
+                    <h4>4. Cookies</h4>
+                    <p>Utilizamos cookies para melhorar sua experiência em nosso site.</p>
+                    
+                    <h4>5. Seus Direitos</h4>
+                    <p>Você tem o direito de acessar, corrigir ou excluir suas informações pessoais.</p>
+                `
+            },
+            responsible: {
+                title: "Jogo Responsável",
+                content: `
+                    <h4>Jogue com Responsabilidade</h4>
+                    <p>O jogo deve ser uma forma de entretenimento, não uma maneira de ganhar dinheiro.</p>
+                    
+                    <h4>Dicas para Jogar com Responsabilidade:</h4>
+                    <ul>
+                        <li>Estabeleça limites de tempo e dinheiro</li>
+                        <li>Nunca tente recuperar perdas</li>
+                        <li>Não jogue quando estiver chateado ou sob influência</li>
+                        <li>Equilibre o jogo com outras atividades</li>
+                    </ul>
+                    
+                    <h4>Precisa de Ajuda?</h4>
+                    <p>Se você acredita que tem um problema com jogo, entre em contato conosco para obter ajuda.</p>
+                `
+            },
+            certifications: {
+                title: "Certificações",
+                content: `
+                    <h4>Nossas Certificações</h4>
+                    <p>Jogos Bet opera com as mais altas certificações de segurança e fair play.</p>
+                    
+                    <h4>Certificação de Segurança</h4>
+                    <p>SSL de 256-bit para proteção de todas as transações.</p>
+                    
+                    <h4>Certificação de Jogo Justo</h4>
+                    <p>Todos os nossos jogos utilizam geradores de números aleatórios certificados.</p>
+                    
+                    <h4>Licenças</h4>
+                    <p>Operamos sob licenças internacionais de jogos reconhecidas.</p>
+                `
+            },
+            faq: {
+                title: "Perguntas Frequentes",
+                content: `
+                    <h4>Como faço para depositar?</h4>
+                    <p>Clique na carteira no cabeçalho e siga as instruções para depósito via PIX.</p>
+                    
+                    <h4>Quanto tempo levam os saques?</h4>
+                    <p>Os saques são processados em até 24 horas úteis.</p>
+                    
+                    <h4>Como jogar os jogos?</h4>
+                    <p>Basta clicar em qualquer jogo e ele será carregado instantaneamente.</p>
+                    
+                    <h4>Preciso baixar algum software?</h4>
+                    <p>Não, todos os nossos jogos funcionam diretamente no navegador.</p>
+                `
+            },
+            contact: {
+                title: "Contato",
+                content: `
+                    <h4>Entre em Contato Conosco</h4>
+                    <p>Estamos aqui para ajudar! Entre em contato através dos canais abaixo:</p>
+                    
+                    <h4>Suporte por Email</h4>
+                    <p>suporte@jogosbet.com</p>
+                    
+                    <h4>Chat ao Vivo</h4>
+                    <p>Disponível 24/7 diretamente na plataforma</p>
+                    
+                    <h4>Telefone</h4>
+                    <p>+55 (11) 1234-5678</p>
+                `
+            },
+            deposits: {
+                title: "Depósitos e Saques",
+                content: `
+                    <h4>Métodos de Depósito</h4>
+                    <ul>
+                        <li>PIX (Instantâneo)</li>
+                        <li>Cartão de Crédito/Débito</li>
+                        <li>Boleto Bancário</li>
+                    </ul>
+                    
+                    <h4>Métodos de Saque</h4>
+                    <ul>
+                        <li>PIX</li>
+                        <li>Transferência Bancária</li>
+                    </ul>
+                    
+                    <h4>Limites</h4>
+                    <p>Depósito mínimo: R$ 10,00</p>
+                    <p>Saque mínimo: R$ 20,00</p>
+                `
+            },
+            profile: {
+                title: "Meu Perfil",
+                content: `
+                    <h4>Informações do Perfil</h4>
+                    <p><strong>Usuário:</strong> ${currentUser || 'Usuário'}</p>
+                    <p><strong>Saldo Atual:</strong> R$ ${getUserBalance(currentUser)?.toFixed(2).replace('.', ',') || '0,00'}</p>
+                    <p><strong>Membro desde:</strong> Janeiro 2024</p>
+                    
+                    <h4>Estatísticas</h4>
+                    <p>Total de jogos: 47</p>
+                    <p>Vitórias: 23</p>
+                    <p>Maior ganho: R$ 250,00</p>
+                `
+            },
+            history: {
+                title: "Histórico",
+                content: `
+                    <h4>Últimas Transações</h4>
+                    <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px;">
+                        <p><strong>Depósito PIX</strong> - R$ 50,00 - 15/01/2024</p>
+                        <p><strong>Jogo Crash</strong> - R$ -10,00 - 14/01/2024</p>
+                        <p><strong>Jogo Mine</strong> - R$ +25,00 - 13/01/2024</p>
+                        <p><strong>Depósito PIX</strong> - R$ 100,00 - 12/01/2024</p>
+                    </div>
+                `
+            },
+            promotions: {
+                title: "Promoções",
+                content: `
+                    <h4>Promoções Ativas</h4>
+                    
+                    <h5>Bônus de Boas-Vindas</h5>
+                    <p>Ganhe 100% de bônus no seu primeiro depósito!</p>
+                    
+                    <h5>Cashback Semanal</h5>
+                    <p>Receba até 15% de cashback todas as segundas-feiras.</p>
+                    
+                    <h5>Rodadas Grátis</h5>
+                    <p>10 rodadas grátis para novos usuários.</p>
+                `
+            },
+            settings: {
+                title: "Configurações",
+                content: `
+                    <h4>Preferências</h4>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <label>
+                            <input type="checkbox" checked> Notificações por email
+                        </label>
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <label>
+                            <input type="checkbox" checked> Sons dos jogos
+                        </label>
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <label>
+                            <input type="checkbox"> Modo escuro (já ativo)
+                        </label>
+                    </div>
+                    
+                    <h4>Limites de Jogo</h4>
+                    <p>Defina limites para proteger seu bankroll:</p>
+                    <button class="btn btn-primary">Configurar Limites</button>
+                `
+            }
+        };
+        
+        // Inicializar sistema
+        function initializeUsers() {
+            if (!localStorage.getItem(AUTH_KEY)) {
+                localStorage.setItem(AUTH_KEY, JSON.stringify({}));
+            }
+            if (!localStorage.getItem(BALANCE_KEY)) {
+                localStorage.setItem(BALANCE_KEY, JSON.stringify({}));
+            }
+        }
+        
+        // Registrar novo usuário
+        function registerUser(username, password) {
+            const users = JSON.parse(localStorage.getItem(AUTH_KEY));
+            const balances = JSON.parse(localStorage.getItem(BALANCE_KEY));
+            
+            if (users[username]) {
+                return { success: false, message: 'Usuário já existe!' };
+            }
+            
+            users[username] = { password: password };
+            balances[username] = 0; // Saldo inicial zero
+            
+            localStorage.setItem(AUTH_KEY, JSON.stringify(users));
+            localStorage.setItem(BALANCE_KEY, JSON.stringify(balances));
+            
+            return { success: true, message: 'Usuário registrado com sucesso!' };
+        }
+        
+        // Fazer login
+        function loginUser(username, password) {
+            const users = JSON.parse(localStorage.getItem(AUTH_KEY));
+            
+            if (!users[username]) {
+                return { success: false, message: 'Usuário não encontrado!' };
+            }
+            
+            if (users[username].password !== password) {
+                return { success: false, message: 'Senha incorreta!' };
+            }
+            
+            return { success: true, message: 'Login realizado com sucesso!' };
+        }
+        
+        // Obter saldo do usuário
+        function getUserBalance(username) {
+            const balances = JSON.parse(localStorage.getItem(BALANCE_KEY));
+            return balances[username] || 0;
+        }
+        
+        // Atualizar saldo do usuário
+        function updateUserBalance(username, amount) {
+            const balances = JSON.parse(localStorage.getItem(BALANCE_KEY));
+            balances[username] = amount;
+            localStorage.setItem(BALANCE_KEY, JSON.stringify(balances));
+        }
+        
+        // Atualizar exibição do saldo
+        function updateBalanceDisplay() {
+            if (currentUser) {
+                const balance = getUserBalance(currentUser);
+                const formattedBalance = balance.toFixed(2).replace('.', ',');
+                headerBalance.textContent = formattedBalance;
+                sidebarBalance.textContent = formattedBalance;
+                sidebarUserName.textContent = currentUser;
+            }
+        }
+        
+        // Mostrar mensagem
+        function showMessage(element, message, type) {
+            element.innerHTML = `<div class="message ${type}">${message}</div>`;
+        }
+        
+        // Mostrar modal de mensagem do sistema
+        function showSystemMessage(title, text) {
+            messageTitle.textContent = title;
+            messageText.textContent = text;
+            messageModal.style.display = 'flex';
+        }
+        
+        // Função para alternar entre login e registro
+        function switchAuthForm(formToShow) {
+            if (formToShow === 'login') {
+                loginTab.classList.add('active');
+                registerTab.classList.remove('active');
+                loginForm.classList.add('active');
+                registerForm.classList.remove('active');
+                loginMessage.innerHTML = '';
+            } else {
+                registerTab.classList.add('active');
+                loginTab.classList.remove('active');
+                registerForm.classList.add('active');
+                loginForm.classList.remove('active');
+                registerMessage.innerHTML = '';
+            }
+        }
+        
+        // Mostrar conteúdo após login
+        function showMainContent(username) {
+            currentUser = username;
+            authSection.style.display = 'none';
+            mainContent.style.display = 'block';
+            mainHeader.style.display = 'block';
+            updateBalanceDisplay();
+            window.scrollTo(0, 0);
+        }
+        
+        // Abrir sidebar
+        function openSidebar() {
+            sidebar.classList.add('active');
+            sidebarOverlay.classList.add('active');
+        }
+        
+        // Fechar sidebar
+        function closeSidebar() {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        }
+        
+        // Processar depósito
+        function processDeposit(amount) {
+            if (!currentUser) return;
+            
+            const currentBalance = getUserBalance(currentUser);
+            const newBalance = currentBalance + parseFloat(amount);
+            
+            updateUserBalance(currentUser, newBalance);
+            updateBalanceDisplay();
+            
+            showSystemMessage(
+                'Depósito Realizado!', 
+                `Depósito de R$ ${parseFloat(amount).toFixed(2).replace('.', ',')} realizado com sucesso!`
+            );
+            depositModal.style.display = 'none';
+        }
+        
+        // Copiar chave PIX
+        function copyPixKey() {
+            navigator.clipboard.writeText('8d4f3e33-31bd-4785-a0fa-dc6722871f53').then(() => {
+                const originalText = copyPixBtn.innerHTML;
+                copyPixBtn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+                setTimeout(() => {
+                    copyPixBtn.innerHTML = originalText;
+                }, 2000);
+            });
+        }
+        
+        // Mostrar modal com conteúdo
+        function showModal(pageKey) {
+            if (pageContent[pageKey]) {
+                modalTitle.textContent = pageContent[pageKey].title;
+                
+                // Atualiza conteúdo dinâmico se necessário
+                if (pageKey === 'profile') {
+                    pageContent.profile.content = `
+                        <h4>Informações do Perfil</h4>
+                        <p><strong>Usuário:</strong> ${currentUser || 'Usuário'}</p>
+                        <p><strong>Saldo Atual:</strong> R$ ${getUserBalance(currentUser)?.toFixed(2).replace('.', ',') || '0,00'}</p>
+                        <p><strong>Membro desde:</strong> Janeiro 2024</p>
+                        
+                        <h4>Estatísticas</h4>
+                        <p>Total de jogos: 47</p>
+                        <p>Vitórias: 23</p>
+                        <p>Maior ganho: R$ 250,00</p>
+                    `;
+                }
+                
+                modalBody.innerHTML = pageContent[pageKey].content;
+                pageModal.style.display = 'flex';
+                closeSidebar();
+            }
+        }
+        
+        // Event Listeners
+        loginTab.addEventListener('click', function() {
+            switchAuthForm('login');
+        });
+        
+        registerTab.addEventListener('click', function() {
+            switchAuthForm('register');
+        });
+        
+        // Formulário de Login
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!username || !password) {
+                showMessage(loginMessage, 'Por favor, preencha todos os campos.', 'error');
+                return;
+            }
+            
+            const result = loginUser(username, password);
+            
+            if (result.success) {
+                showMainContent(username);
+            } else {
+                showMessage(loginMessage, result.message, 'error');
+            }
+        });
+        
+        // Formulário de Registro
+        registerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('registerUsername').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+            
+            if (!username || !password || !confirmPassword) {
+                showMessage(registerMessage, 'Por favor, preencha todos os campos.', 'error');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showMessage(registerMessage, 'As senhas não coincidem.', 'error');
+                return;
+            }
+            
+            if (password.length < 4) {
+                showMessage(registerMessage, 'A senha deve ter pelo menos 4 caracteres.', 'error');
+                return;
+            }
+            
+            const result = registerUser(username, password);
+            
+            if (result.success) {
+                showMessage(registerMessage, result.message + ' Agora faça login.', 'success');
+                setTimeout(() => {
+                    switchAuthForm('login');
+                    document.getElementById('loginUsername').value = username;
+                }, 1500);
+            } else {
+                showMessage(registerMessage, result.message, 'error');
+            }
+        });
+        
+        // Menu toggle
+        menuToggle.addEventListener('click', openSidebar);
+        sidebarClose.addEventListener('click', closeSidebar);
+        sidebarOverlay.addEventListener('click', closeSidebar);
+        
+        // Opções do menu sidebar
+        sidebarProfile.addEventListener('click', function(e) {
+            e.preventDefault();
+            showModal('profile');
+        });
+        
+        sidebarHistory.addEventListener('click', function(e) {
+            e.preventDefault();
+            showModal('history');
+        });
+        
+        sidebarPromotions.addEventListener('click', function(e) {
+            e.preventDefault();
+            showModal('promotions');
+        });
+        
+        sidebarSettings.addEventListener('click', function(e) {
+            e.preventDefault();
+            showModal('settings');
+        });
+        
+        // Logout
+        sidebarLogoutBtn.addEventListener('click', function() {
+            currentUser = null;
+            authSection.style.display = 'flex';
+            mainContent.style.display = 'none';
+            mainHeader.style.display = 'none';
+            loginForm.reset();
+            registerForm.reset();
+            loginMessage.innerHTML = '';
+            registerMessage.innerHTML = '';
+            switchAuthForm('login');
+            closeSidebar();
+        });
+        
+        // Carteira - Abrir modal de depósito
+        walletBtn.addEventListener('click', function() {
+            depositModal.style.display = 'flex';
+        });
+        
+        // Copiar chave PIX
+        copyPixBtn.addEventListener('click', copyPixKey);
+        
+        // Valores rápidos
+        quickAmounts.forEach(button => {
+            button.addEventListener('click', function() {
+                const amount = this.getAttribute('data-amount');
+                depositAmount.value = amount;
+            });
+        });
+        
+        // Confirmar depósito
+        confirmDepositBtn.addEventListener('click', function() {
+            const amount = parseFloat(depositAmount.value);
+            
+            if (!amount || amount < 10) {
+                showSystemMessage('Valor Inválido', 'Por favor, insira um valor válido (mínimo R$ 10,00)');
+                return;
+            }
+            
+            if (amount > 10000) {
+                showSystemMessage('Valor Inválido', 'O valor máximo para depósito é R$ 10.000,00');
+                return;
+            }
+            
+            processDeposit(amount);
+        });
+        
+        // Botões de banner
+        bonusBtn.addEventListener('click', function() {
+            showSystemMessage('Bônus Ativado', 'Bônus de 100% ativado com sucesso!');
+        });
+        
+        freeSpinsBtn.addEventListener('click', function() {
+            showSystemMessage('Rodadas Grátis', '10 rodadas grátis creditadas na sua conta!');
+        });
+        
+        cashbackBtn.addEventListener('click', function() {
+            showModal('deposits');
+        });
+        
+        // Links de termos no formulário
+        document.getElementById('termsLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            showModal('terms');
+        });
+        
+        // Links do footer
+        const footerLinks = [
+            'termsLinkFooter', 'privacyLink', 'responsibleLink', 'certificationsLink',
+            'faqLink', 'contactLink', 'depositsLink', 'homeLink', 'gamesLink'
+        ];
+        
+        footerLinks.forEach(linkId => {
+            document.getElementById(linkId).addEventListener('click', function(e) {
+                e.preventDefault();
+                const pageKey = linkId.replace('Link', '').replace('Footer', '');
+                if (pageContent[pageKey]) {
+                    showModal(pageKey);
+                }
+            });
+        });
+        
+        // Fechar modais
+        depositModalClose.addEventListener('click', function() {
+            depositModal.style.display = 'none';
+        });
+        
+        modalClose.addEventListener('click', function() {
+            pageModal.style.display = 'none';
+        });
+        
+        messageModalClose.addEventListener('click', function() {
+            messageModal.style.display = 'none';
+        });
+        
+        messageOkBtn.addEventListener('click', function() {
+            messageModal.style.display = 'none';
+        });
+        
+        // Fechar modal clicando fora
+        window.addEventListener('click', function(e) {
+            if (e.target === depositModal) depositModal.style.display = 'none';
+            if (e.target === pageModal) pageModal.style.display = 'none';
+            if (e.target === messageModal) messageModal.style.display = 'none';
+        });
+        
+        // Botões dos jogos
+        document.querySelectorAll('.game-play-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (getUserBalance(currentUser) < 1) {
+                    showSystemMessage('Saldo Insuficiente', 'Faça um depósito para jogar!');
+                    depositModal.style.display = 'flex';
+                    return;
+                }
+                const game = this.getAttribute('data-game');
+                showSystemMessage('Jogo Iniciado', `Redirecionando para ${game}...`);
+            });
+        });
+        
+        // Categorias de jogos
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Inicializar a página
+        initializeUsers();
+    </script>
+</body>
+</html>
